@@ -1,0 +1,12 @@
+{
+  "Author": "AinaSnow",
+  "Name": "Party Marker Party List",
+  "Punchline": "显示队伍成员当前的头顶标记。",
+  "Description": "将队伍成员头顶的原生目标标记同步显示在小队列表职业图标左侧。只读显示，不会自动施加或修改标记。",
+  "InternalName": "PartyMarkerPartyList",
+  "AssemblyVersion": "0.1.0.0",
+  "ApplicableVersion": "any",
+  "DalamudApiLevel": 15,
+  "LoadRequiredState": 0,
+  "Tags": [ "UI", "Party" ]
+}

@@ -1,0 +1,71 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <Platforms>x64</Platforms>
+    <LangVersion>preview</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <OutputType>Library</OutputType>
+    <AssemblyName>PartyMarkerPartyList</AssemblyName>
+    <RootNamespace>PartyMarkerPartyList</RootNamespace>
+    <Version>0.1.0</Version>
+    <AssemblyVersion>0.1.0.0</AssemblyVersion>
+    <FileVersion>0.1.0.0</FileVersion>
+    <OutputPath>bin\$(Configuration)\</OutputPath>
+    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <AppendRuntimeIdentifierToOutputPath>false</AppendRuntimeIdentifierToOutputPath>
+    <EnableWindowsTargeting>true</EnableWindowsTargeting>
+    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+    <DebugType>portable</DebugType>
+    <DebugSymbols>true</DebugSymbols>
+
+    <!--
+      Plugin API assemblies come from the local Hooks development runtime. The source checkouts under
+      E:\SapphireServer\Dalamud Dev are only API references; they are intentionally not project dependencies.
+      Every path can be overridden with -p:... when validating against another local runtime.
+    -->
+    <HooksDevPath Condition="'$(HooksDevPath)' == ''">$(APPDATA)\XIVLauncher\addon\Hooks\dev</HooksDevPath>
+    <DalamudReferencePath Condition="'$(DalamudReferencePath)' == ''">$(HooksDevPath)\Dalamud.dll</DalamudReferencePath>
+    <FFXIVClientStructsReferencePath Condition="'$(FFXIVClientStructsReferencePath)' == ''">$(HooksDevPath)\FFXIVClientStructs.dll</FFXIVClientStructsReferencePath>
+    <DalamudBindingsImGuiPath Condition="'$(DalamudBindingsImGuiPath)' == ''">$(HooksDevPath)\Dalamud.Bindings.ImGui.dll</DalamudBindingsImGuiPath>
+    <InteropGeneratorRuntimePath Condition="'$(InteropGeneratorRuntimePath)' == ''">$(HooksDevPath)\InteropGenerator.Runtime.dll</InteropGeneratorRuntimePath>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Reference Include="Dalamud">
+      <HintPath>$(DalamudReferencePath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="Dalamud.Bindings.ImGui">
+      <HintPath>$(DalamudBindingsImGuiPath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="FFXIVClientStructs">
+      <HintPath>$(FFXIVClientStructsReferencePath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+    <Reference Include="InteropGenerator.Runtime">
+      <HintPath>$(InteropGeneratorRuntimePath)</HintPath>
+      <Private>false</Private>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="PartyMarkerPartyList.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <Target Name="ValidateDalamudReferences" BeforeTargets="ResolveReferences">
+    <Error Condition="!Exists('$(DalamudReferencePath)')"
+           Text="Dalamud.dll not found at '$(DalamudReferencePath)'. Set HooksDevPath or DalamudReferencePath to the local Hooks dev DLL directory." />
+    <Error Condition="!Exists('$(FFXIVClientStructsReferencePath)')"
+           Text="FFXIVClientStructs.dll not found at '$(FFXIVClientStructsReferencePath)'. Set HooksDevPath or FFXIVClientStructsReferencePath to the local Hooks dev DLL directory." />
+    <Error Condition="!Exists('$(DalamudBindingsImGuiPath)')"
+           Text="Dalamud.Bindings.ImGui.dll not found at '$(DalamudBindingsImGuiPath)'. Set HooksDevPath or DalamudBindingsImGuiPath to the local Hooks dev DLL directory." />
+    <Error Condition="!Exists('$(InteropGeneratorRuntimePath)')"
+           Text="InteropGenerator.Runtime.dll not found at '$(InteropGeneratorRuntimePath)'. Set HooksDevPath or InteropGeneratorRuntimePath to the local Hooks dev DLL directory." />
+  </Target>
+</Project>
