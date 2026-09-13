@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0-windows</TargetFramework>
+    <PlatformTarget>x64</PlatformTarget>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <HooksDevPath Condition="'$(HooksDevPath)' == ''">$(APPDATA)\XIVLauncher\addon\Hooks\dev</HooksDevPath>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="..\MarkerMatcher.cs" Link="MarkerMatcher.cs" />
+    <Reference Include="FFXIVClientStructs">
+      <HintPath>$(HooksDevPath)\FFXIVClientStructs.dll</HintPath>
+    </Reference>
+    <Reference Include="InteropGenerator.Runtime">
+      <HintPath>$(HooksDevPath)\InteropGenerator.Runtime.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+</Project>

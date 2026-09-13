@@ -22,17 +22,6 @@ internal sealed unsafe class PartyMarkerOverlay : IDisposable
     private const float MarkerGapRatio = 0.12f;
     private const float FallbackIconSize = 20.0f;
 
-    // Marker.csv in the local FFXIV data maps these 17 MarkingController slots to
-    // the native target-marker icons in ui/icon/061000.
-    private static readonly uint[] TargetMarkerIconIds =
-    [
-        61201, 61202, 61203, 61204, 61205,
-        61211, 61212, 61213,
-        61221, 61222,
-        61231, 61232, 61233, 61234,
-        61206, 61207, 61208,
-    ];
-
     private readonly IGameGui gameGui;
     private readonly ITextureProvider textureProvider;
     private readonly IPluginLog log;
@@ -105,8 +94,7 @@ internal sealed unsafe class PartyMarkerOverlay : IDisposable
         for (var slot = 0; slot < memberCount; slot++)
         {
             var nativeMember = nativeMembers[slot];
-            if (nativeMember.EntityId == 0 ||
-                !TryGetMarkerIconId(markingController, nativeMember.EntityId, out var markerIconId))
+            if (!MarkerMatcher.TryGetMarkerIconId(markingController->Markers, nativeMember.EntityId, out var markerIconId))
             {
                 continue;
             }
@@ -145,25 +133,5 @@ internal sealed unsafe class PartyMarkerOverlay : IDisposable
                 markerPosition,
                 markerPosition + new Vector2(markerSize));
         }
-    }
-
-    private static bool TryGetMarkerIconId(
-        MarkingController* markingController,
-        uint entityId,
-        out uint markerIconId)
-    {
-        var markers = markingController->Markers;
-        var count = Math.Min(markers.Length, TargetMarkerIconIds.Length);
-        for (var markerIndex = 0; markerIndex < count; markerIndex++)
-        {
-            if (markers[markerIndex].ObjectId == entityId)
-            {
-                markerIconId = TargetMarkerIconIds[markerIndex];
-                return true;
-            }
-        }
-
-        markerIconId = 0;
-        return false;
     }
 }

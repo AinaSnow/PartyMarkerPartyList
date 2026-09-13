@@ -46,6 +46,17 @@ Dalamud 与 FFXIVClientStructs 源码 checkout 仅用于查阅 API 和结构布�
 当前支持角色头顶的原生目标标记：攻击 1～8、止步/锁链 1～3、禁止 1～2、方块、圆圈、十字、三角；
 不包含场地标点或机制标记。
 
+### 修复与回归检查
+
+`0.1.1` 修复了跨服小队在副本外，远端成员被误显示为“攻击 1”的问题。
+无效实体 ID（`0`、`0xE0000000`）不会匹配标记；没有有效本地实体 ID 的成员不显示标记。
+
+使用同一套 Hooks dev DLL 运行匹配逻辑回归检查：
+
+```powershell
+dotnet run --project .\tests\MarkerMatcher.Tests.csproj -c Release -p:HooksDevPath="$env:APPDATA\XIVLauncher\addon\Hooks\dev"
+```
+
 ## English
 
 Party Marker Party List is a Dalamud plugin that mirrors native target markers above party members' heads
@@ -89,3 +100,14 @@ The Dalamud and FFXIVClientStructs source checkouts are used only for API and st
 
 The plugin currently supports native target markers above characters' heads: Attack 1–8, Bind/Stop 1–3,
 Ignore 1–2, Square, Circle, Plus, and Triangle. Field markers and mechanic-specific markers are not included.
+
+### Fixes and regression checks
+
+`0.1.1` fixes remote cross-world party members incorrectly displaying Attack 1 outside duties.
+Invalid entity IDs (`0`, `0xE0000000`) cannot match markers. Members without a valid local entity ID show no marker.
+
+Run the matching regression checks using the same Hooks dev DLLs:
+
+```powershell
+dotnet run --project .\tests\MarkerMatcher.Tests.csproj -c Release -p:HooksDevPath="$env:APPDATA\XIVLauncher\addon\Hooks\dev"
+```
