@@ -1,13 +1,19 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
     <TargetFramework>net10.0-windows</TargetFramework>
     <PlatformTarget>x64</PlatformTarget>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
+    <IsPackable>false</IsPackable>
     <HooksDevPath Condition="'$(HooksDevPath)' == ''">$(APPDATA)\XIVLauncher\addon\Hooks\dev</HooksDevPath>
   </PropertyGroup>
   <ItemGroup>
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.11.1" />
+    <PackageReference Include="xunit" Version="2.9.2" />
+    <PackageReference Include="xunit.runner.visualstudio" Version="2.8.2" />
+  </ItemGroup>
+  <ItemGroup>
+    <Using Include="Xunit" />
     <Compile Include="..\MarkerMatcher.cs" Link="MarkerMatcher.cs" />
     <Reference Include="FFXIVClientStructs">
       <HintPath>$(HooksDevPath)\FFXIVClientStructs.dll</HintPath>

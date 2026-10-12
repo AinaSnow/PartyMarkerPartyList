@@ -13,11 +13,19 @@
 ### 功能
 
 - 从 `MarkingController.Markers` 读取当前角色头顶的原生目标标记及目标实体 ID。
-- 使用游戏原生图标显示攻击、止步/锁链、禁止和几何标记。
-- 通过实体 ID 将标记与小队列表中的实际队伍成员行对应起来。
-- 在小队列表职业图标左侧绘制标记，不遮挡职业图标和队伍点击区域。
-- 覆盖层不接收输入，不改写原生 UI 节点。
-- 使用 `/partymarkers` 切换显示。
+- 从游戏 `Marker` 表读取原生图标，显示攻击、止步/锁链、禁止和几何标记。
+- 通过实体 ID 将标记与小队列表中的实际队伍成员行对应起来，支持亲信战友 / 剧情辅助器小队。
+- 默认在职业图标左侧绘制标记，尺寸跟随 HUD 布局缩放，透明度跟随小队列表。
+- 覆盖层不接收输入，不改写原生 UI 节点，也不会盖在其它插件窗口上面。
+- 设置窗口可以调整显示位置（左侧/右侧）、大小和偏移，设置会持久保存。
+
+### 命令
+
+| 命令 | 作用 |
+| --- | --- |
+| `/partymarkers` | 切换显示 |
+| `/partymarkers on` / `off` | 开启 / 关闭显示 |
+| `/partymarkers config` | 打开设置窗口（也可以在插件安装器中点设置按钮） |
 
 ### 使用
 
@@ -34,7 +42,7 @@ FFXIVClientStructs 源码项目作为编译依赖。默认目录是：
 ```
 
 目录中需要有 `Dalamud.dll`、`FFXIVClientStructs.dll`、
-`Dalamud.Bindings.ImGui.dll` 和 `InteropGenerator.Runtime.dll`。如果 DLL 在其他目录，可以通过
+`Dalamud.Bindings.ImGui.dll`、`InteropGenerator.Runtime.dll`、`Lumina.dll` 和 `Lumina.Excel.dll`。如果 DLL 在其他目录，可以通过
 `-p:HooksDevPath="..."` 覆盖：
 
 ```powershell
@@ -48,13 +56,15 @@ Dalamud 与 FFXIVClientStructs 源码 checkout 仅用于查阅 API 和结构布�
 
 ### 修复与回归检查
 
+`0.2.0` 修复了调整 HUD 布局中小队列表大小后，标记尺寸与职业图标不一致的问题。
+
 `0.1.1` 修复了跨服小队在副本外，远端成员被误显示为“攻击 1”的问题。
 无效实体 ID（`0`、`0xE0000000`）不会匹配标记；没有有效本地实体 ID 的成员不显示标记。
 
 使用同一套 Hooks dev DLL 运行匹配逻辑回归检查：
 
 ```powershell
-dotnet run --project .\tests\MarkerMatcher.Tests.csproj -c Release -p:HooksDevPath="$env:APPDATA\XIVLauncher\addon\Hooks\dev"
+dotnet test .\tests\MarkerMatcher.Tests.csproj -c Release -p:HooksDevPath="$env:APPDATA\XIVLauncher\addon\Hooks\dev"
 ```
 
 ## English
@@ -69,11 +79,19 @@ in the party list:
 ### Features
 
 - Reads native target-marker slots and target entity IDs from `MarkingController.Markers`.
-- Uses the game's native icons for attack, bind/stop, ignore, and shape markers.
-- Matches markers to the correct party-list row by entity ID.
-- Draws each marker to the left of the party member's job icon.
-- Uses a non-interactive overlay and does not modify native UI nodes or party-list click areas.
-- Use `/partymarkers` to toggle the overlay.
+- Reads native icons from the game's `Marker` sheet for attack, bind/stop, ignore, and shape markers.
+- Matches markers to the correct party-list row by entity ID, including trust / duty-support parties.
+- Draws each marker left of the job icon by default, following the HUD layout scale and the party list's opacity.
+- Uses a non-interactive overlay that does not modify native UI nodes and stays below other plugin windows.
+- A settings window adjusts side (left/right), size, and offset; settings are persisted.
+
+### Commands
+
+| Command | Action |
+| --- | --- |
+| `/partymarkers` | Toggle the overlay |
+| `/partymarkers on` / `off` | Enable / disable the overlay |
+| `/partymarkers config` | Open settings (also available from the plugin installer) |
 
 ### Usage
 
@@ -89,8 +107,8 @@ Dalamud or FFXIVClientStructs source repositories as compile-time project depend
 %APPDATA%\XIVLauncher\addon\Hooks\dev
 ```
 
-The directory must contain `Dalamud.dll`, `FFXIVClientStructs.dll`, `Dalamud.Bindings.ImGui.dll`, and
-`InteropGenerator.Runtime.dll`. Override the location with `-p:HooksDevPath="..."` when necessary:
+The directory must contain `Dalamud.dll`, `FFXIVClientStructs.dll`, `Dalamud.Bindings.ImGui.dll`,
+`InteropGenerator.Runtime.dll`, `Lumina.dll`, and `Lumina.Excel.dll`. Override the location with `-p:HooksDevPath="..."` when necessary:
 
 ```powershell
 dotnet build .\PartyMarkerPartyList.csproj -c Debug -p:HooksDevPath="$env:APPDATA\XIVLauncher\addon\Hooks\dev"
@@ -103,11 +121,13 @@ Ignore 1–2, Square, Circle, Plus, and Triangle. Field markers and mechanic-spe
 
 ### Fixes and regression checks
 
+`0.2.0` fixes marker size not following the party list's HUD layout scale.
+
 `0.1.1` fixes remote cross-world party members incorrectly displaying Attack 1 outside duties.
 Invalid entity IDs (`0`, `0xE0000000`) cannot match markers. Members without a valid local entity ID show no marker.
 
 Run the matching regression checks using the same Hooks dev DLLs:
 
 ```powershell
-dotnet run --project .\tests\MarkerMatcher.Tests.csproj -c Release -p:HooksDevPath="$env:APPDATA\XIVLauncher\addon\Hooks\dev"
+dotnet test .\tests\MarkerMatcher.Tests.csproj -c Release -p:HooksDevPath="$env:APPDATA\XIVLauncher\addon\Hooks\dev"
 ```

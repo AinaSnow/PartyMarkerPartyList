@@ -2,11 +2,13 @@
   "Author": "AinaSnow",
   "Name": "Party Marker Party List",
   "Punchline": "显示队伍成员当前的头顶标记。",
-  "Description": "将队伍成员头顶的原生目标标记同步显示在小队列表职业图标左侧。只读显示，不会自动施加或修改标记。",
+  "Description": "将队伍成员头顶的原生目标标记同步显示在小队列表职业图标旁。只读显示，不会自动施加或修改标记。",
   "InternalName": "PartyMarkerPartyList",
-  "AssemblyVersion": "0.1.1.0",
+  "AssemblyVersion": "0.2.0.0",
   "ApplicableVersion": "any",
   "DalamudApiLevel": 15,
   "LoadRequiredState": 0,
+  "RepoUrl": "https://github.com/AinaSnow/PartyMarkerPartyList",
+  "Changelog": "0.2.0：标记尺寸跟随 HUD 布局缩放；跟随小队列表透明度；支持亲信战友小队；新增设置窗口（位置、大小、偏移）并持久化开关；标记图标改为读取 Marker 表；不再遮挡其它插件窗口；/partymarkers 支持 on、off、config。",
   "Tags": [ "UI", "Party" ]
 }
