@@ -42,7 +42,7 @@ FFXIVClientStructs 源码项目作为编译依赖。默认目录是：
 ```
 
 目录中需要有 `Dalamud.dll`、`FFXIVClientStructs.dll`、
-`Dalamud.Bindings.ImGui.dll` 和 `InteropGenerator.Runtime.dll`。如果 DLL 在其他目录，可以通过
+`Dalamud.Bindings.ImGui.dll`、`InteropGenerator.Runtime.dll`、`Lumina.dll` 和 `Lumina.Excel.dll`。如果 DLL 在其他目录，可以通过
 `-p:HooksDevPath="..."` 覆盖：
 
 ```powershell
@@ -107,7 +107,7 @@ Dalamud or FFXIVClientStructs source repositories as compile-time project depend
 %APPDATA%\XIVLauncher\addon\Hooks\dev
 ```
 
-The directory must contain `Dalamud.dll`, `FFXIVClientStructs.dll`, `Dalamud.Bindings.ImGui.dll`, and
+The directory must contain `Dalamud.dll`, `FFXIVClientStructs.dll`, `Dalamud.Bindings.ImGui.dll`,
 `InteropGenerator.Runtime.dll`, `Lumina.dll`, and `Lumina.Excel.dll`. Override the location with `-p:HooksDevPath="..."` when necessary:
 
 ```powershell
